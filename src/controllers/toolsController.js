@@ -7,9 +7,9 @@ module.exports = {
             res.json(response)
     },
     async create(req,res){
-        const {title,link,descripttion,tags} = req.body
+        const {title,link,description,tags} = req.body
         
-        const result = await  knex("tools").insert([{title, link, descripttion, tags}])
+        const result = await  knex("tools").insert([{title, link, description, tags}])
 
         const response = await knex("tools").select("*").where({id:result})
 
@@ -59,11 +59,11 @@ module.exports = {
     },
     async put(req,res){
         const {id} = req.params;
-        const {title,link,descripttion,tags} = req.body
+        const {title,link,description,tags} = req.body
          await knex("tools").where({id}).update({
             title:title,
             link:link,
-            descripttion:descripttion,
+            description:description,
             tags: tags,
             updated_at: knex.fn.now()
         })
