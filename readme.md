@@ -12,7 +12,7 @@ This api was developed in order to be sent to the back end test of the Bossa box
 - bcryptjs
 - jsonwebtoken
 
-## Routs:
+## Routes:
     http://localhost:3000  
     this is a route to get all the tools
 
