@@ -1,5 +1,14 @@
 # Api for the Bossa Box test
 
+## About:
+This api was developed in order to be sent to the back end test of the Bossa box
+
+
+## Technologies and tools:
+- Nodejs
+- mysql
+- express
+- knex
 ## Routs:
     http://localhost:3000  
     this is a route to get all the tools
