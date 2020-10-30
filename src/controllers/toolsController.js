@@ -52,7 +52,7 @@ module.exports = {
         const {id} = req.params;
         try{
           const response = await knex("tools").where({id}).del()
-          res.status(204).json({message:"tool delted"})
+          res.status(204).json({message:"tool deleted"})
         }catch(e){
             res.json({error:e})
         }

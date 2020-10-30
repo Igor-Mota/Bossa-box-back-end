@@ -3,6 +3,8 @@
 ## About:
 This api was developed in order to be sent to the back end test of the Bossa box
 
+Below we have the routes to access the tools in the database, to create edit or delete a tool and you must be logged in
+
 
 ## Technologies and tools:
 - Nodejs

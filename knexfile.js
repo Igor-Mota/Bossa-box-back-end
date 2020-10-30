@@ -1,15 +1,14 @@
 // Update with your config settings.
 
 module.exports = {
-
   development: {
     client: 'mysql',
     connection: {
-      host : 'localhost',
-      user : 'root',
-      password : 'root',
-      database : 'bossa_box',
-      port:"3306"
+      host : "mysql741.umbler.com",
+      user : "twixtaxe",
+      password : "10121974m",
+      database : "bossa_box",
+      port:41890
     },
     migrations:{
       directory: `${__dirname}/src/database/migrations`
@@ -36,18 +35,21 @@ module.exports = {
   },
 
   production: {
-    client: 'postgresql',
+    client: 'mysql',
     connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
+      database : process.env.DB_DATABAE,
+      user : process.env.DB_USER,
+      password : process.env.DB_PASSWORD,
     },
     pool: {
       min: 2,
       max: 10
     },
-    migrations: {
-      tableName: 'knex_migrations'
+    migrations:{
+      directory: `${__dirname}/src/database/migrations`
+    },
+    seeds:{
+      directory: `${__dirname}/src/database/seeds`
     }
   }
 
