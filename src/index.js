@@ -7,7 +7,6 @@ const app = express();
 app.use(express.json())
 app.use(routes)
 
-
 app.listen(process.env.APP_PORT, () =>{
     return console.log("vai")
 })
