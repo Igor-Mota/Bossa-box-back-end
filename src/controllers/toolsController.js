@@ -4,12 +4,14 @@ const toolsView = require("../views/toolsView")
 module.exports = {
    async index(req,res){
        const response = await knex("tools").select("*")
-            res.json(response)
+        res.json(response)
     },
     async create(req,res){
         const {title,link,description,tags} = req.body
+
+        const tagLowcase = tags.toLowerCase()
         
-        const result = await  knex("tools").insert([{title, link, description, tags}])
+        const result = await  knex("tools").insert([{title, link, description, tags: tagLowcase}])
 
         const response = await knex("tools").select("*").where({id:result})
 
@@ -19,6 +21,7 @@ module.exports = {
         const {id} = req.params
         try{
             const response =  await knex("tools").select("*").where({id}).first()
+            
             res.json(toolsView.render(response));
         
         }catch(e){
@@ -26,20 +29,26 @@ module.exports = {
         }   
     },
     async searchForTag(req,res){
-        const {tag} = req.params     
-      
+        const {tag} = req.params
+        const {onlytag} = req.headers
+        
         try{
-            const response = await knex("tools").select("tags","id")
+            const response = await knex("tools").select("tags","id","title")
            
             let tools = []
            
             response.forEach(element =>{
                 if(element.tags.includes(tag)){
-                    const id = element.id
+                    let id = element.id
+                    tools.push(id)
+                
+                }else if(element.title.includes(tag) && onlytag !== "true"){
+                    let id = element.id 
                     tools.push(id)
                 }
             })
-            const queryForIds  = await knex("tools").select("*").whereIn("id",tools) 
+        
+            const queryForIds  = await knex("tools").select("*").whereIn("id",tools)
 
             res.json(queryForIds)
        
@@ -70,4 +79,5 @@ module.exports = {
         const response = await knex('tools').select("*").where({id})
         res.status(200).json(response)
     }
+
 }

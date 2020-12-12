@@ -12,9 +12,9 @@ module.exports = (req, res, next) =>{
     if(parts.length !== 2){
         return res.status(401).json({message: "token error"})
     }
-    const [ scheme, token] = parts 
+    const [scheme, token] = parts 
     
-    if(!scheme.includes("Bearer")){
+    if(!scheme.includes("bearer")){
         return   res.status(401).json({message:"bad format token"})
     }
 
