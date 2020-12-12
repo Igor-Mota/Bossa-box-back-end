@@ -6,7 +6,8 @@ const bcrypt = require("bcryptjs");
 
 module.exports = {
    async login(req, res){
-        const {name,password} = req.body;
+         const {data} = req.body
+        const {name, password} = data;
         
         const response = await knex("users").select("id","name", "password").where({name});
             if(response.length  === 0){
@@ -29,14 +30,15 @@ module.exports = {
             res.json(responseEnd)
     },
     async createAccount(req,res){
-
-        const {name, password} = req.body;
+        const {data} = req.body
+        const {name, password} = data;
+     
 
         const response = await knex("users").select("*").where({name})
 
         if( response.length > 0){
 
-            res.status(400).json({message:"user already exiist"})
+          return  res.status(422).json({message:"user already exiist"})
         }    
         var hash = await bcrypt.hash(password, 10);
 
