@@ -12,7 +12,7 @@ module.exports = {
         const response = await knex("users").select("id","name", "password").where({name});
             if(response.length  === 0){
 
-                return res.json({message:"user  not found"})
+                return res.status(400).json({message:"user  not found"})
             }
          const comparehash = await bcrypt.compare(password, response[0].password)
        
@@ -33,7 +33,6 @@ module.exports = {
         const {data} = req.body
         const {name, password} = data;
      
-
         const response = await knex("users").select("*").where({name})
 
         if( response.length > 0){
