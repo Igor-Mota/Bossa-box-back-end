@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken")
-const string = require("../secret/stringForGenerateHash.json")
+
+
+const string = process.env.APP_SECRET 
 
 module.exports = (req, res, next) =>{
     const authToken = req.headers.authorization;
@@ -18,7 +20,7 @@ module.exports = (req, res, next) =>{
         return   res.status(401).json({message:"bad format token"})
     }
 
-    jwt.verify(token, string.string, (err, decoded) =>{
+    jwt.verify(token, string, (err, decoded) =>{
         if(err){
             return res.status(400).json({message:"invalid token"})
         }

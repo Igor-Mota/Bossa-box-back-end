@@ -1,5 +1,4 @@
-const knex = require("../database/connection");
-const toolsView = require("../views/toolsView")
+const knex = require("../../database/connection");
 
 module.exports = {
    async index(req,res){
@@ -22,7 +21,7 @@ module.exports = {
         try{
             const response =  await knex("tools").select("*").where({id}).first()
             
-            res.json(toolsView.render(response));
+            res.json(response);
         
         }catch(e){
             res.json({message: e + ",tool not found"})
@@ -79,5 +78,4 @@ module.exports = {
         const response = await knex('tools').select("*").where({id})
         res.status(200).json(response)
     }
-
 }

@@ -1,11 +1,11 @@
 const routes = require("express").Router();
 
-const authMiddleware = require("./middlewares/jsonWebToken")
+const authMiddleware = require("./app/middlewares/jsonWebToken")
 
-const toolsController = require("./controllers/toolsController")
-const loginController = require("./controllers/loginController")
+const toolsController = require("./app/controllers/toolsController")
+const loginController = require("./app/controllers/loginController")
 
-routes.get("/", toolsController.index)
+routes.get("/home", toolsController.index)
 routes.get("/showTool/:id", toolsController.show)
 routes.delete("/delete/:id",authMiddleware, toolsController.delete)
 routes.post("/addTool", authMiddleware, toolsController.create)

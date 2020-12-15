@@ -5,8 +5,8 @@ exports.seed = function(knex) {
     .then(function () {
       // Inserts seed entries
       return knex('tools').insert([
-        {title: 'teste', link:"https://google.com", description:"umadescrição sobre a ferramenta", tags:"api facil, intuitiva,teste"},
-        {title: 'teste2', link:"https://google.com", description:"umadescrição sobre a ferramenta", tags:"pacote escrita teste compass"}
+        {name: 'teste', link:"https://google.com", description:"umadescrição sobre a ferramenta", tags:"api facil, intuitiva,teste"},
+        {name: 'teste2', link:"https://google.com", description:"umadescrição sobre a ferramenta", tags:"pacote escrita teste compass"}
       ]);
     });
 };
