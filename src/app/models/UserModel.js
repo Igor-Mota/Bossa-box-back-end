@@ -18,14 +18,12 @@ module.exports = {
     const newUser = await this.find({email})
 
     const token = await this.jwtCreate(newUser.id)
-
    
     return {user:newUser, token}
     },
     async find({email}){
-    
+     
         const response = await knex('users').select("*").where({email})
-
         const user = response[0];
  
         return user 

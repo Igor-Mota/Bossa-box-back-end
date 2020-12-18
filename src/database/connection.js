@@ -7,7 +7,7 @@ const knex = () =>{
         )
     }else{
         return(
-             require("knex")(knexfile.development)
+             require("knex")(knexfile.test)
             
         )
     }

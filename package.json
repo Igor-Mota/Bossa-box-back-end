@@ -6,24 +6,24 @@
   "scripts": {
     "start": "node src/index",
     "dev": "nodemon src/index",
-
-    "dbclear":"knex migrate:rollback --all --env test",
-    "migrate":"knex migrate:latest --env test",
+    "seeds": "knex seed:run",
+    "dbclear": "knex migrate:rollback --all --env test",
+    "migrate": "knex migrate:latest --env test",
     "pretest": "knex migrate:latest --env test",
     "test": "NODE_ENV=test jest --detectOpenHandles",
     "posttest": "knex migrate:rollback --all --env test"
-
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "factory-girl": "^5.0.4",
+    "faker": "^5.1.0",
     "install": "^0.13.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.8",
     "mysql": "^2.18.1"
-    
   },
   "devDependencies": {
     "jest": "^26.6.3",

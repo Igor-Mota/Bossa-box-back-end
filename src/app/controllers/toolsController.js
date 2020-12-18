@@ -1,81 +1,76 @@
 const knex = require("../../database/connection");
-
+const toolsModel = require("../models/toolsModel")
+const toolsView = require("../views/toolsView")
 module.exports = {
    async index(req,res){
-       const response = await knex("tools").select("*")
-        res.json(response)
+        const {user_id}  = req.headers;
+   
+        if(!user_id){
+            return res.status(200).json({message:"not tools created"})
+        }
+        const response = await toolsModel.showAllTools(user_id)
+        
+        return res.json(response)
     },
     async create(req,res){
-        const {title,link,description,tags} = req.body
-
-        const tagLowcase = tags.toLowerCase()
-        
-        const result = await  knex("tools").insert([{title, link, description, tags: tagLowcase}])
-
-        const response = await knex("tools").select("*").where({id:result})
-
+        const {user_id,name,link,description,tags} = req.body
+        const response = await toolsModel.createTool({
+           user_id,
+           name,
+           link,
+           description,
+           tags
+       })
         res.status(201).json(response)
     },
-    async show(req, res){
-        const {id} = req.params
-        try{
-            const response =  await knex("tools").select("*").where({id}).first()
-            
-            res.json(response);
-        
-        }catch(e){
-            res.json({message: e + ",tool not found"})
-        }   
-    },
     async searchForTag(req,res){
-        const {tag} = req.params
-        const {onlytag} = req.headers
-        
-        try{
-            const response = await knex("tools").select("tags","id","title")
-           
-            let tools = []
-           
-            response.forEach(element =>{
-                if(element.tags.includes(tag)){
-                    let id = element.id
-                    tools.push(id)
-                
-                }else if(element.title.includes(tag) && onlytag !== "true"){
-                    let id = element.id 
-                    tools.push(id)
-                }
-            })
-        
-            const queryForIds  = await knex("tools").select("*").whereIn("id",tools)
+     
+        const {tag, user_id} = req.body;
 
-            res.json(queryForIds)
+        const response = await toolsModel.findForTag(user_id);
+
+        const tools =   response.map(element =>{
+
+            if(element.tags.includes(tag)){
+
+                return element.id
+            }
+            return
+        })
+        if(tools[0] !== undefined){
+
+             const filteredTools = await toolsModel.findArrays(tools)
+             
+            return res.status(200).json(filteredTools)
+        }
+        return res.status(200).json({message:'not tool localized'})
+    },       
        
-        }catch(e){
-            
-            return res.json({error: e})
-        }    
-    },
     async delete(req,res){
+
         const {id} = req.params;
-        try{
-          const response = await knex("tools").where({id}).del()
-          res.status(204).json({message:"tool deleted"})
-        }catch(e){
-            res.json({error:e})
+    
+        const response =  await toolsModel.deleteTool(id)
+
+        if(!response){ 
+            res.status(204).json({message:"tool deleted"})
+        }else{
+            
+            res.status(400).json(response)
+            
         }
     },
     async put(req,res){
         const {id} = req.params;
-        const {title,link,description,tags} = req.body
+        const {name,link,description,tags} = req.body
          await knex("tools").where({id}).update({
-            title:title,
+            name:name,
             link:link,
             description:description,
             tags: tags,
             updated_at: knex.fn.now()
         })
         const response = await knex('tools').select("*").where({id})
-        res.status(200).json(response)
+        res.status(200).json(toolsView.renderTool(response[0]))
     }
 }

@@ -1,4 +1,3 @@
-const UseModel = require("../../src/app/models/UserModel")
 const request = require("supertest")
 const app = require('../../src/app')
 
@@ -19,13 +18,14 @@ describe('test for create and warnig if user exists or not', () =>{
         expect(response.body).toHaveProperty('email')
     })
     it('should return a message that user alredy exist', async () =>{
-       await request(app)
+       let userCreate = await request(app)
         .post('/createAccount')
         .send({
          	name:"twix",
 	        password:"123456",
 	        email:"twix@gmail.com"
         })
+        userCreate = null
         const response = await request(app)
         .post('/createAccount')
         .send({
